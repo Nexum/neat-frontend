@@ -34,11 +34,11 @@ module.exports = class Frontend extends Module {
             apiModuleName: "api",
             staticDirMaxAge: "1d",
             publicDir: "frontend/public",
-            partialsRootPath: "frontend/partials",
+            helpersRootPath: "frontend/helpers",
             templateRootPath: "frontend/templates",
+            partialsRootPath: "frontend/templates/partials",
             layoutsRootPath: "frontend/templates/layouts",
             elementsRootPath: "frontend/templates/elements",
-            helpersRootPath: "frontend/helpers"
         }
     }
 
@@ -392,7 +392,7 @@ module.exports = class Frontend extends Module {
     getLayoutTemplate(name, req) {
         var layoutsPath = Application.config.root_path + "/" + this.config.layoutsRootPath;
 
-        return this.loadTemplate(layoutsPath + name + ".ejs", {
+        return this.loadTemplate(layoutsPath + "/" + name + ".ejs", {
             filename: "layout_" + name,
             rmWhitespace: this.config.removeWhitespaces,
             context: req.viewHelpers
@@ -409,7 +409,7 @@ module.exports = class Frontend extends Module {
     getElementTemplate(id, req) {
         var elementsPath = Application.config.root_path + "/" + this.config.elementsRootPath;
 
-        return this.loadTemplate(elementsPath + this.getElementTemplatePath(id, req) + ".ejs", {
+        return this.loadTemplate(elementsPath + "/" + this.getElementTemplatePath(id, req) + ".ejs", {
             filename: "element_" + id,
             rmWhitespace: this.config.removeWhitespaces,
             context: req.viewHelpers
