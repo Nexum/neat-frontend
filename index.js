@@ -31,6 +31,7 @@ module.exports = class Frontend extends Module {
             removeWhitespaces: true,
             templateCacheEnabled: true,
             webserverModuleName: "webserver",
+            apiModuleName: "api",
             staticDirMaxAge: "1d",
             publicDir: "frontend/public",
             partialsRootPath: "frontend/partials",
@@ -104,7 +105,7 @@ module.exports = class Frontend extends Module {
         var stats = {};
         var pageData = null;
 
-        return Application.modules.api.getPageJson(req).then((data) => {
+        return Application.modules[this.config.apiModuleName].getPageJson(req).then((data) => {
             data = this.fixDataForDomains(data, req);
 
             var matches;
