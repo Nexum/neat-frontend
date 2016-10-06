@@ -136,6 +136,13 @@ module.exports = class Frontend extends Module {
                 res.status(data.status);
             }
 
+            if (data.redirect) {
+                var err = new Error(String(data.status) || "302");
+                err.redirect = data.redirect;
+                throw err;
+                return;
+            }
+
             pageData = data;
             stats.render = Tools.measureTime();
             return this.dispatch(data, req);
@@ -352,13 +359,6 @@ module.exports = class Frontend extends Module {
     dispatchElement(elementData, req) {
         if (!elementData || elementData.doesNotExist) {
             return "";
-        }
-
-        if (elementData.id) {
-            var category = elementData.id.split(".").shift();
-            if (!this.config.adsEnabled && category === "ads") {
-                return "";
-            }
         }
 
         if (elementData.esi && !req.esi && this.config.esiEnabled && req.method === "GET") {
