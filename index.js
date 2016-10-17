@@ -389,6 +389,15 @@ module.exports = class Frontend extends Module {
         }
     }
 
+    dispatchTemplate(name, tmplString, req) {
+        this.loadViewHelpers(req);
+        return ejs.compile(tmplString, {
+            filename: "custom_" + name,
+            rmWhitespace: this.config.removeWhitespaces,
+            context: req.viewHelpers
+        });
+    }
+
     getLayoutTemplate(name, req) {
         var layoutsPath = Application.config.root_path + "/" + this.config.layoutsRootPath;
 
