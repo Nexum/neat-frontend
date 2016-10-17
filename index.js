@@ -221,6 +221,7 @@ module.exports = class Frontend extends Module {
 
     loadViewHelpers(req) {
         this.loadDefaultHelpers(req);
+        Tools.ensureFolderExists(this.config.helpersRootPath, Application.config.root_path);
 
         var helpers = {};
         var helperFiles = fs.readdirSync(Application.config.root_path + "/" + this.config.helpersRootPath);
