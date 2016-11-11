@@ -29,7 +29,7 @@ module.exports = class Frontend extends Module {
             defaultLocale: "en",
             updateTranslationFiles: true,
             removeWhitespaces: true,
-            templateCacheEnabled: true,
+            templateCacheEnabled: false,
             webserverModuleName: "webserver",
             apiModuleName: "api",
             staticDirMaxAge: "1d",
