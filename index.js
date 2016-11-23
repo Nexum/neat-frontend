@@ -316,7 +316,7 @@ module.exports = class Frontend extends Module {
                     var elementData = slotData[i];
 
                     if (!elementData.id) {
-                        continue;
+                        elementData.id = elementData.element;
                     }
 
                     if (elementData.EMPTY) {
@@ -358,7 +358,7 @@ module.exports = class Frontend extends Module {
     }
 
     dispatchElement(elementData, req) {
-        if (!elementData || elementData.doesNotExist) {
+        if (!elementData) {
             return "";
         }
 
