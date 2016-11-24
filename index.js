@@ -228,7 +228,7 @@ module.exports = class Frontend extends Module {
 
         for (var i = 0; i < helperFiles.length; i++) {
             var helperFile = helperFiles[i];
-            var helper = require("./helpers/" + helperFile)(req);
+            var helper = require(Application.config.root_path + "/" + this.config.helpersRootPath + "/" + helperFile)(req);
 
             for (var name in helper) {
                 helpers[name] = helper[name];
