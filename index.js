@@ -148,29 +148,32 @@ module.exports = class Frontend extends Module {
             return this.dispatch(data, req);
         }).then((data) => {
             data = this.fixDataForDomains(data, req);
-            stats.render = stats.render();
 
-            //data = this.addJavascript(data); not needed anymore, just keeping for reference
-            stats.htmlProcess = Tools.measureTime();
-            data = this.processHtml(data, req);
-            stats.htmlProcess = stats.htmlProcess();
+            // if we didnt render, just dont do anything render related
+            if (stats.render) {
+                stats.render = stats.render();
 
-            res.header("Stats-Rendering", stats.render);
-            res.header("Stats-HtmlMinAndCss", stats.htmlProcess);
+                stats.htmlProcess = Tools.measureTime();
+                data = this.processHtml(data, req);
+                stats.htmlProcess = stats.htmlProcess();
 
-            if (!req.clearCache) {
-                if (pageData.stats && pageData.stats.cache) {
-                    res.header("Cache-Control", "max-age=" + pageData.stats.cache)
+                res.header("Stats-Rendering", stats.render);
+                res.header("Stats-HtmlMinAndCss", stats.htmlProcess);
+
+                if (!req.clearCache) {
+                    if (pageData.stats && pageData.stats.cache) {
+                        res.header("Cache-Control", "max-age=" + pageData.stats.cache)
+                    } else {
+                        res.header("Cache-Control", "no-cache")
+                    }
                 } else {
                     res.header("Cache-Control", "no-cache")
                 }
-            } else {
-                res.header("Cache-Control", "no-cache")
+
+                res.header("Content-Type", "text/html");
+
+                res.end(data);
             }
-
-            res.header("Content-Type", "text/html");
-
-            res.end(data);
         }).catch((err) => {
             if (typeof err === "object" && !err instanceof Error) {
                 err = this.fixDataForDomains(err, req);
