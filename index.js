@@ -160,7 +160,7 @@ module.exports = class Frontend extends Module {
                 res.header("Stats-Rendering", stats.render);
                 res.header("Stats-HtmlMinAndCss", stats.htmlProcess);
 
-                if (!req.clearCache) {
+                if (!req.clearCache || pageData.cache || pageData.hasOwnProperty("cache") == false) {
                     if (pageData.stats && pageData.stats.cache) {
                         res.header("Cache-Control", "max-age=" + pageData.stats.cache)
                     } else {
