@@ -27,6 +27,7 @@ module.exports = class Frontend extends Module {
                 "en"
             ],
             defaultLocale: "en",
+            localeCookie: null,
             updateTranslationFiles: true,
             removeWhitespaces: true,
             templateCacheEnabled: false,
@@ -54,6 +55,7 @@ module.exports = class Frontend extends Module {
                 directory: Application.config.config_path + '/locales',
                 defaultLocale: this.config.defaultLocale,
                 updateFiles: this.config.updateTranslationFiles,
+                cookie: this.config.localeCookie,
                 indent: "    ",
                 extension: ".json",
                 objectNotation: false,
@@ -160,7 +162,7 @@ module.exports = class Frontend extends Module {
                 res.header("Stats-Rendering", stats.render);
                 res.header("Stats-HtmlMinAndCss", stats.htmlProcess);
 
-                if (!req.clearCache || pageData.cache || pageData.hasOwnProperty("cache") == false) {
+                if (!req.clearCache) {
                     if (pageData.stats && pageData.stats.cache) {
                         res.header("Cache-Control", "max-age=" + pageData.stats.cache)
                     } else {
@@ -342,9 +344,9 @@ module.exports = class Frontend extends Module {
 
     getEsiForElement(elementConfig, req) {
         var src = this.config.esiUrl + new Buffer(JSON.stringify({
-                page: elementConfig.page,
-                element: elementConfig.element
-            })).toString("base64");
+            page: elementConfig.page,
+            element: elementConfig.element
+        })).toString("base64");
 
         if (req.query && Object.keys(req.query).length > 0) {
             var queryStr = querystring.stringify(req.query);

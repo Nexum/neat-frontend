@@ -21,6 +21,26 @@ module.exports = function (req) {
                 console.error(e);
                 console.error(e.stack);
             }
+        },
+
+        getLocale: function () {
+            try {
+                return req.getLocale.apply(req, arguments);
+            } catch (e) {
+                console.error(arguments);
+                console.error(e);
+                console.error(e.stack);
+            }
+        },
+
+        getLocales: function () {
+            try {
+                return req.getLocales.apply(req, arguments);
+            } catch (e) {
+                console.error(arguments);
+                console.error(e);
+                console.error(e.stack);
+            }
         }
 
     }
