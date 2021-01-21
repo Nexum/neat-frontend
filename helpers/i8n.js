@@ -23,6 +23,20 @@ module.exports = function (req) {
             }
         },
 
+        __e: function () {
+            try {
+                let translation = req.__.apply(req, arguments);
+                if (translation && typeof translation === "string") {
+                    translation = translation.replace(/'/ig, "\\'");
+                }
+                return translation;
+            } catch (e) {
+                console.error(arguments);
+                console.error(e);
+                console.error(e.stack);
+            }
+        },
+
         getLocale: function () {
             try {
                 return req.getLocale.apply(req, arguments);
